@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+  namespace: flask-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: flask
+        image: gcr.io/ica-1-436122/inclassact2:v1
+        ports:
+        - containerPort: 5000
+        envFrom:
+          - configMapRef:
+              name: flask-config
+          - secretRef:
+              name: flask-secret
